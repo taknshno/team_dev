@@ -51,6 +51,28 @@ class TeamsController < ApplicationController
     @team = current_user.keep_team_id ? Team.find(current_user.keep_team_id) : current_user.teams.first
   end
 
+  def change_owner
+    # 権限を移動するアサインユーザーを取得
+    @assign = Assign.find(params[:id])
+    # AssignからTeamのIDを取得
+    @team = Team.friendly.find(@assign.team_id)
+
+    # オーナーが操作しているか確認
+    if current_user.id == @team.owner_id
+      if @team.update_attribute(:owner_id, @assign.user_id)
+        # 権限を移動するユーザにメールを送信
+
+        # リダイレクト
+        redirect_to @team, notice: I18n.t('views.messages.change_owner')
+      else
+        flash.now[:error] = I18n.t('views.messages.failed_to_change_owner')
+        render
+      end
+    else
+      redirect_to @team, notice: I18n.t('views.messages.can_change_owner_by_current_owner_only')
+    end
+  end
+
   private
 
   def set_team
