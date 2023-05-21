@@ -61,7 +61,8 @@ class TeamsController < ApplicationController
     if current_user.id == @team.owner_id
       if @team.update_attribute(:owner_id, @assign.user_id)
         # 権限を移動するユーザにメールを送信
-
+        @user = User.find(@assign.user_id)
+        ChangeOwnerMailer.change_owner_mail(@user, @team).deliver
         # リダイレクト
         redirect_to @team, notice: I18n.t('views.messages.change_owner')
       else

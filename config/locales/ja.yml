@@ -236,6 +236,7 @@ ja:
       post_comment: 'コメント投稿'
       initial_assign: 'あなたのアドレスが、DIVEINTOPOSTのチームにアサインされました！'
       initial_password: '初期パスワード:'
+      leader_transferred_to_you: 'あなたにチームリーダーの権限が移動しました'
       author: '投稿者'
       delete_comment: 'コメントを削除する'
       edit_comment: 'コメントを編集する'
