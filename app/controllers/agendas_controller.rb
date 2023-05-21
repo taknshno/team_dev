@@ -25,9 +25,7 @@ class AgendasController < ApplicationController
     @team = Team.friendly.find(@agenda.team_id)
     if current_user.id == @agenda.user_id || current_user.id == @team.owner_id
       if @agenda.destroy
-        # アジェンダを持つチームのユーザにメールを送信
         AgendaDeleteMailer.agenda_delete_mail(@agenda).deliver
-        # リダイレクト
         redirect_to dashboard_url, notice: I18n.t('views.messages.delete_agenda')
       else
         flash.now[:error] = I18n.t('views.messages.failed_to_delete_agenda')

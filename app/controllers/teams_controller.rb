@@ -52,18 +52,13 @@ class TeamsController < ApplicationController
   end
 
   def change_owner
-    # 権限を移動するアサインユーザーを取得
     @assign = Assign.find(params[:id])
-    # AssignからTeamのIDを取得
     @team = Team.friendly.find(@assign.team_id)
 
-    # オーナーが操作しているか確認
     if current_user.id == @team.owner_id
       if @team.update_attribute(:owner_id, @assign.user_id)
-        # 権限を移動するユーザにメールを送信
         @user = User.find(@assign.user_id)
         ChangeOwnerMailer.change_owner_mail(@user, @team).deliver
-        # リダイレクト
         redirect_to @team, notice: I18n.t('views.messages.change_owner')
       else
         flash.now[:error] = I18n.t('views.messages.failed_to_change_owner')
