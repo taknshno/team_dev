@@ -42,7 +42,11 @@
                       <td><%= image_tag 'default.jpg', size: '40x40' %></td>
                       <td><%= assign.user.email %></td>
                       <td><%= link_to I18n.t('views.button.delete'), team_assign_path(@team, assign), method: :delete, class: 'btn btn-sm btn-danger' %></td>
-                    </tr>
+                      <%# 「権限移動」ボタンの追加 %>
+                      <% if current_user.id == @team.owner_id && assign.user_id != @team.owner_id %>
+                        <td><%= link_to I18n.t('views.button.change_owner'), change_owner_team_path(assign), method: :patch, class: 'btn btn-sm btn-info' %></td>
+                      <% end %>
+                   </tr>
                   <% end %>
                 </tbody>
               </table>
