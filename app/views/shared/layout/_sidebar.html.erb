@@ -31,9 +31,14 @@
         <% @working_team.agendas.each do |agenda| %>
           <li class="nav-item has-treeview menu-open">
             <a href="#" class="nav-link">
-              <i class="fa fa-circle-o nav-icon"></i>
+              <i class="fa fa-circle-o" aria-hidden="true"></i>
               <p>
                 <%= agenda.title %>
+                <object>
+                  <%= link_to agenda_path(agenda.id), class:"ml-1", method: :delete, data:{confirm:"アジェンダを削除しますか？"} do %>
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                  <% end %>
+                </object>
                 <i class="right fa fa-angle-left"></i>
               </p>
             </a>
